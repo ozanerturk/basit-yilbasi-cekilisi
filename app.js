@@ -55,6 +55,11 @@ app.post('/room/:roomId/match', (req, res) => {
       message: 'Room not found'
     })
   } else {
+    if(room.auth != req.body.auth){
+      return res.status(401).json({
+        message: 'unauthorized'
+      })
+    }
     let keys = Object.keys(rooms[roomid].members)
     if (keys.length % 2 == 1) {
       return res.status(400).json({
