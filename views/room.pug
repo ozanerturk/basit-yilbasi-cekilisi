@@ -9,7 +9,7 @@ html
       h1 ODA #{name}
       br
       h2 Adını yaz ve çekilişe katıl
-      input(id="name" class="input" style="width:30%" autocomplete="off")
+      input(id="name" class="input" onkeyup='onKeyup(this)' style="width:30%" autocomplete="off")
       button(onclick="enterRoom()" class="button size-sm")  Kaydet
       br
       p Katılımcılar
@@ -27,6 +27,14 @@ html
     }
     function hideResult(){
        $("#result").hide()
+    }
+    function onKeyup(e){
+    if (event.keyCode === 13) {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        enterRoom()
+      }
     }
     function enterRoom(e){
       socket.emit('enter-room',{name:$("#name").val(), roomid: roomid})
