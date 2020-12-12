@@ -1,0 +1,124 @@
+html
+  head
+    title= title
+    script(src='https://code.jquery.com/jquery-3.4.1.min.js')
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css")
+  body
+    div(id="container")
+      h1(id="title") Create Room
+      br
+      form(action="")
+        input(id="roomName" autocomplete="off" type="text" class="input" style="width:30%")
+        br
+        br
+        button(class="button size-sm") Send
+        br
+        br
+        a(id="linkToRoom" style='display:none')  User url 
+        br
+        a(id="linkToRoomAuth" style='display:none')  Admin url 
+  script.
+    $(function () {
+      $('form').submit(function (e) {
+        e.preventDefault(); // prevents page reloading
+        fetch('/room',{
+          method:'POST',
+          headers: {
+          'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ 
+            name:  $('#roomName').val() 
+            })
+        })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        $("#linkToRoom").html("User: "+window.location.origin+"/room/"+data.id)
+        $("#linkToRoom").show()
+        $("#linkToRoomAuth").html("Admin: "+window.location.origin+"/room/"+data.id+"?auth="+data.auth)
+          $("#linkToRoomAuth").show()
+      });
+    return false;
+    });
+    });
+  style.
+    html {
+      overflow: hidden;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+
+    :root {
+      --main-white-color: #f2f2f2;
+      --main-black-color: black;
+      --main-purple-color: #9e89b8;
+    }
+
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: none;
+      outline: none;
+      cursor: pointer;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    #container {
+      text-align: center;
+      flex: 1;
+    }
+
+    h1 {
+      color: white !important;
+    }
+
+    body {
+      color: white !important;
+      font: 16px/1.5 "Dosis", sans-serif;
+      background: #00a0a0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .wrapper>* {
+      padding: 20px;
+    }
+
+
+    @media screen and (min-width: 768px) {
+      body {
+        font-size: 18px;
+      }
+
+    }
+      body{
+        text-align:center;
+        font-size:30px
+      }
